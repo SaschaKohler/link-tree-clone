@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: link-tree-clone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: link-tree-clone
+  template:
+    metadata:
+      labels:
+        app: link-tree-clone
+    spec:
+      containers:
+      - name: nginx
+        image: blisha234/link-tree-clone:latest
+        ports:
+        - containerPort: 80
