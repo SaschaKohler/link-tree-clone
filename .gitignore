@@ -55,6 +55,7 @@ jspm_packages/
 *.swp
 *.swo
 *~
+token.yaml
 
 # OS generated files
 .DS_Store
