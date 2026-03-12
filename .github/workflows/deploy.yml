@@ -34,17 +34,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Configure kubectl
+    - name: Configure kubectl via Tailscale
       run: |
-        echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
-        export KUBECONFIG=kubeconfig
-        echo "=== Debug kubeconfig ==="
-        cat kubeconfig
-        echo "=== Validate YAML ==="
-        kubectl config view --raw
+        # Tailscale setup
+        curl -fsSL https://tailscale.com/install.sh | sh
+        echo "${{ secrets.TAILSCALE_AUTHKEY }}" | tailscale up --authkey=stdin --accept-routes
+        
+        # Wait for connection
+        tailscale status
+        
+        # Use kubeconfig with Tailscale IP
+        mkdir -p ~/.kube
+        echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > ~/.kube/config
 
     - name: Deploy to Kubernetes
       run: |
-        export KUBECONFIG=kubeconfig
         kubectl apply -f k8s/
         kubectl rollout restart deployment/link-tree-clone
