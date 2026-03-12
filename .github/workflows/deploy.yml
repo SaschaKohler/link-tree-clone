@@ -42,14 +42,6 @@ jobs:
         cat kubeconfig
         echo "=== Validate YAML ==="
         kubectl config view --raw
-        
-    - name: Alternative kubectl setup (if needed)
-      if: failure()
-      run: |
-        echo "Setting up kubectl for k3s..."
-        mkdir -p ~/.kube
-        echo "${{ secrets.K3S_KUBECONFIG }}" | base64 -d > ~/.kube/config
-        export KUBECONFIG=~/.kube/config
 
     - name: Deploy to Kubernetes
       run: |
