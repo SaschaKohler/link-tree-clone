@@ -36,12 +36,12 @@ jobs:
 
     - name: Configure kubectl via Tailscale
       run: |
-        # Tailscale setup
-        curl -fsSL https://tailscale.com/install.sh | sh
-        echo "${{ secrets.TAILSCALE_AUTHKEY }}" | tailscale up --authkey=stdin --accept-routes
+        # # Tailscale setup
+        # curl -fsSL https://tailscale.com/install.sh | sh
+        # echo "${{ secrets.TAILSCALE_AUTHKEY }}" | tailscale up --authkey=stdin --accept-routes
         
-        # Wait for connection
-        tailscale status
+        # # Wait for connection
+        # tailscale status
         
         # Use kubeconfig with Tailscale IP
         mkdir -p ~/.kube
